@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambient Sensor</title>
+  </head>
+  <body>
+    <div id="app" class="min-h-screen bg-[#080810] text-white flex flex-col items-center gap-8 px-6 py-10">
+
+      <header class="text-center">
+        <h1 class="text-5xl font-bold tracking-tight bg-network bg-clip-text text-transparent p-8">
+          Ambient Sensor
+        </h1>
+      </header>
+
+      <div class="w-full max-w-xl">
+
+        <div class="flex border-b border-white/10">
+          <button id="tab-audio" class="flex-1 py-3 text-sm font-semibold tracking-wide text-white/40 border-b-2 border-transparent transition-colors cursor-pointer">
+            Bruit
+          </button>
+          <button id="tab-camera" class="flex-1 py-3 text-sm font-semibold tracking-wide text-white/40 border-b-2 border-transparent transition-colors cursor-pointer">
+            Lumière
+          </button>
+          <button id="tab-network" class="flex-1 py-3 text-sm font-semibold tracking-wide text-white/40 border-b-2 border-transparent transition-colors cursor-pointer">
+            Réseau
+          </button>
+        </div>
+
+        <div id="panel-audio" class="pt-8 flex-col items-center gap-6" style="display:none">
+          <div class="flex flex-col items-center gap-4">
+            <div class="flex items-end gap-1 h-32" id="vumeter">
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="val-audio" class="font-mono text-4xl font-semibold text-audio"></span>
+              <span class="font-mono text-sm text-white/30">dB</span>
+            </div>
+          </div>
+          <canvas id="spark-audio" class="w-full h-12 rounded-lg bg-white/5" width="480" height="48"></canvas>
+        </div>
+
+        <div id="panel-camera" class="pt-8 flex-col items-center gap-6" style="display:none">
+          <div class="relative flex items-center justify-center">
+            <svg viewBox="0 0 200 200" class="w-44 h-44">
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#1e1e30" stroke-width="12" />
+              <circle cx="100" cy="100" r="80"
+                id="gauge-camera" fill="none" stroke="#fbbf24" stroke-width="12" stroke-linecap="round"
+                stroke-dasharray="502.65" stroke-dashoffset="502.65"
+                transform="rotate(-90 100 100)"
+                style="transition: stroke-dashoffset 0.25s ease-out" />
+            </svg>
+            <div class="absolute flex flex-col items-center">
+              <span id="val-camera" class="font-mono text-4xl font-semibold text-camera"></span>
+              <span class="font-mono text-xs text-white/30 mt-1">lux</span>
+            </div>
+          </div>
+          <canvas id="spark-camera" class="w-full h-12 rounded-lg bg-white/5" width="480" height="48"></canvas>
+        </div>
+
+        <div id="panel-network" class="pt-8 flex-col items-center gap-6 w-full" style="display:none">
+          <div id="net-type" class="font-mono text-3xl font-bold px-6 py-2 rounded-full border border-[#34d39930] bg-network"></div>
+          <div class="w-full flex flex-col gap-4">
+
+            <div id="row-conn-type" class="flex items-center justify-between" style="display:none">
+              <span class="text-xs font-semibold uppercase tracking-widest text-white/30">Connexion</span>
+              <span id="val-conn-type" class="font-mono text-sm text-white">—</span>
+            </div>
+
+            <div  class="flex flex-col gap-1.5">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold uppercase tracking-widest text-white/30">Débit effectif</span>
+                <span id="val-max-downlink" class="font-mono text-xs text-white/20">max </span>
+              </div>
+              <div class="relative w-full h-10 rounded-lg bg-white/5 overflow-hidden">
+                <div id="bar-downlink" class="absolute inset-y-0 left-0 rounded-lg bg-network/40 transition-all duration-500" style="width:0%"></div>
+                <span id="val-downlink" class="absolute inset-0 flex items-center justify-center font-mono text-sm font-semibold text-network"></span>
+              </div>
+              <span id="val-downlink-max" class="font-mono text-xs text-white/20 text-right"></span>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-semibold uppercase tracking-widest text-white/30 w-16">Latence</span>
+              <div class="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                <div id="bar-rtt" class="h-full rounded-full bg-network transition-all duration-500" style="width:0%"></div>
+              </div>
+              <span id="val-rtt" class="font-mono text-xs text-white w-20 text-right">—</span>
+            </div>
+
+          </div>
+          <p id="net-save" class="text-xs text-camera min-h-4"></p>
+        </div>
+
+      </div>
+
+      <button id="start-btn" class="px-10 py-3 rounded-xl border border-white/10 bg-white/5 text-sm font-medium text-white transition-all cursor-pointer hover:border-white/20">
+        Démarrer les capteurs
+      </button>
+
+      <button id="stop-btn" class="hidden px-10 py-3 rounded-xl border border-red-500/30 bg-red-500/10 text-sm font-medium text-red-400 transition-all cursor-pointer hover:border-red-500/50">
+        Arrêter les capteurs
+      </button>
+
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

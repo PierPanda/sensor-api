@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@source "../src/**/*.ts";
+
+@theme {
+  --color-audio: #a78bfa;
+  --color-camera: #fbbf24;
+  --color-network: #34d399;
+  --font-mono: ui-monospace, 'JetBrains Mono', Consolas, monospace;
+}

@@ -1,0 +1,165 @@
+    :root {
+      --bg:      #080810;
+      --card:    #0e0e1a;
+      --border:  #1e1e30;
+      --text:    #e2e2f0;
+      --muted:   #5a5a7a;
+      --audio:   #a78bfa;
+      --camera:  #fbbf24;
+      --network: #34d399;
+      --mono:    'JetBrains Mono', ui-monospace, Consolas, monospace;
+    }
+
+    .reveal-viewport { background: var(--bg); }
+    .reveal {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 22px;
+      color: var(--text);
+    }
+
+    .reveal h1, .reveal h2, .reveal h3 {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      text-transform: none;
+    }
+    .reveal h1 {
+      font-size: 3em;
+      line-height: 1.1;
+      color: #fff;
+    }
+    .reveal h2 {
+      font-size: 1.5em;
+      color: #fff;
+      margin-bottom: 0.5em;
+    }
+    .reveal h3 {
+      font-size: 0.75em;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.4em;
+    }
+
+    .reveal p  { font-size: 0.9em; line-height: 1.6; color: var(--text); margin-bottom: 0.4em; }
+    .reveal ul  { list-style: none; padding: 0; margin: 0.3em 0; }
+    .reveal li {
+      font-size: 0.88em;
+      line-height: 1.65;
+      color: var(--text);
+      display: flex;
+      align-items: baseline;
+      gap: 0.5em;
+      margin-bottom: 0.1em;
+    }
+    .reveal li::before { content: "•"; color: var(--muted); flex-shrink: 0; }
+    .reveal strong { color: #fff; font-weight: 600; }
+    .reveal em     { color: var(--camera); font-style: normal; }    .reveal :not(pre) > code {
+      font-family: var(--mono);
+      background: #13132a;
+      border: 1px solid #2a2a45;
+      border-radius: 4px;
+      padding: 0.1em 0.4em;
+      font-size: 0.82em;
+      color: var(--audio);
+    }    .reveal pre {
+      background: #060612 !important;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.8em 1em !important;
+      width: 100%;
+      margin: 0.5em 0;
+    }
+    .reveal pre code {
+      background: none !important;
+      border: none !important;
+      padding: 0 !important;
+      font-size: 0.75em;
+      line-height: 1.6;
+      font-family: var(--mono);
+      text-align: left;
+    }
+    .reveal table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82em;
+      margin: 0.4em 0;
+    }
+    .reveal table thead tr { background: transparent; }
+    .reveal table th {
+      color: var(--muted);
+      font-size: 0.72em;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.5em 0.9em;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .reveal table td {
+      padding: 0.45em 0.9em;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+      text-align: left;
+    }
+    .reveal table tbody tr:nth-child(even) { background: transparent; }
+    .reveal table tr:last-child td { border-bottom: none; }
+
+    .reveal blockquote {
+      background: var(--card);
+      border-left: 3px solid var(--muted);
+      border-radius: 0;
+      padding: 0.6em 1.1em;
+      margin: 0.5em 0;
+      width: 100%;
+      font-style: normal;
+      font-size: 0.88em;
+      color: var(--text);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.15em 0.5em;
+      border-radius: 3px;
+      font-size: 0.75em;
+      font-family: var(--mono);
+      font-weight: 500;
+    }
+    .tag-audio   { background: #1a1228; color: var(--audio); }
+    .tag-camera  { background: #1f1a0d; color: var(--camera); }
+    .tag-network { background: #0d1f19; color: var(--network); }
+
+    .reveal .progress span { background: var(--muted); }
+    .reveal .slide-number {
+      color: var(--muted);
+      background: none;
+      font-family: var(--mono);
+      font-size: 0.6em;
+    }
+    .reveal .controls button { color: var(--text) !important; opacity: 0.4; }
+    .reveal .controls button:hover { opacity: 1; }
+
+    .cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1em;
+      align-items: start;
+    }
+    .cols > div {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.9em 1.1em;
+    }
+    .cols > div > p { margin-bottom: 0.4em; }
+
+    .subtitle {
+      color: var(--muted) !important;
+      font-family: var(--mono) !important;
+      font-size: 0.5em !important;
+      letter-spacing: 0.1em;
+      margin-top: 0.8em;
+    }

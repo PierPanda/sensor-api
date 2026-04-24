@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sensors API</title>
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.ico">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+  <section>
+    <h1>Browser<br>Sensor API</h1>
+    <p class="subtitle">W3C Generic Sensor API &amp; présentation &amp; demo</p>
+  </section>
+
+  <section>
+    <h2>C'est quoi ?</h2>
+    <p>
+      Une API qui permet à <strong>une page web</strong> de lire les <strong>capteurs physiques</strong> de l'appareil :
+    </p>
+    <ol>
+      <li>Accéléromètre détecte les mouvements</li>
+      <li>Gyroscope détecte les rotations</li>
+      <li>Magnétomètre détecte le nord magnétique</li>
+      <li>Lumière ambiante mesure la luminosité</li>
+      <li>et d'autres...</li>
+    </ol>
+    <blockquote>
+      Avant, chaque capteur avait sa propre syntaxe. Maintenant, <strong>un seul modèle</strong> pour tous.
+    </blockquote>
+  </section>
+
+  <section>
+    <h2>Un peu d'histoire</h2>
+    <p>De l'iPhone à une API standardisée en 10 ans :</p>
+    <table>
+      <thead><tr><th>Année</th><th>Ce qui s'est passé</th></tr></thead>
+      <tbody>
+        <tr><td><strong>2007</strong></td><td>L'iPhone popularise les capteurs mobiles mais le web n'y a pas accès.</td></tr>
+        <tr><td><strong>2009–11</strong></td><td>Premiers essais : <code>DeviceMotionEvent</code> ça marche, mais chaque navigateur fait différemment.</td></tr>
+        <tr><td><strong>2015</strong></td><td>Le W3C lance un groupe de travail pour créer un vrai standard.</td></tr>
+        <tr><td><strong>2016</strong></td><td>Première version de la Generic Sensor API, portée par Intel.</td></tr>
+        <tr><td><strong>2018</strong></td><td>Chrome devient le premier navigateur à l'implémenter.</td></tr>
+        <tr><td><strong>Aujourd'hui</strong></td><td>Fonctionne sur Chrome et Edge. Firefox et Safari ne l'ont pas encore.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Pourquoi ? Le problème</h2>
+    <p>Avant, chaque capteur avait <strong>sa propre syntaxe</strong>. Exemple avec l'accéléromètre :</p>
+    <pre>
+      <code class="language-js">// Ancienne méthode pas de contrôle 
+        window.addEventListener(
+          'devicemotion', 
+          (event) =&gt; {
+            console.log(event.accelerationIncludingGravity.x);
+          }
+        );
+      </code>
+  </pre>
+    <p>Les problèmes :</p>
+    <ul>
+      <li>Impossible de choisir <strong>combien de fois par seconde</strong> lire le capteur</li>
+      <li>Pas de demande de <strong>permission</strong> à l'utilisateur</li>
+      <li>Pas de <strong>timing précis</strong> pour synchroniser plusieurs capteurs</li>
+      <li>Chaque navigateur faisait <strong>à sa façon</strong></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Pourquoi ? La solution</h2>
+    <p>Avec la Generic Sensor API, <strong>tous les capteurs fonctionnent pareil</strong> :</p>
+    <ol>
+      <li><strong>Créer</strong> le capteur en précisant la fréquence voulue (ici 60 fois/seconde)</li>
+      <li><strong>Écouter</strong> une fonction appelée à chaque nouvelle mesure</li>
+      <li><strong>Démarrer</strong> le capteur ne s'active que quand on le demande</li>
+    </ol>
+    <pre><code class="language-js">const sensor = new Accelerometer({ frequency: 60 });
+
+sensor.addEventListener('reading', () =&gt; {
+  console.log(sensor.x, sensor.y, sensor.z); // en m/s²
+});
+
+sensor.start();</code></pre>
+  </section>
+
+  <section>
+    <h2>Par qui ?</h2>
+    <p>Une collaboration entre organismes de standardisation et entreprises tech :</p>
+    <table>
+      <thead><tr><th>Acteur</th><th>Rôle</th></tr></thead>
+      <tbody>
+        <tr><td><strong>W3C</strong></td><td>L'organisme qui définit les standards du web écrit la spec officielle</td></tr>
+        <tr><td><strong>Intel</strong></td><td>A écrit la première version intéressé par les objets connectés</td></tr>
+        <tr><td><strong>Google</strong></td><td>A implémenté l'API dans Chrome en premier</td></tr>
+        <tr><td><strong>Mozilla / Apple</strong></td><td>N'ont pas encore suivi Firefox et Safari ne supportent pas l'API</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Pour quoi faire ?</h2>
+    <p>Créer des expériences web qui ressemblent à des <strong>applications natives</strong> :</p>
+    <table>
+      <thead><tr><th>Exemple concret</th><th>Capteur utilisé</th></tr></thead>
+      <tbody>
+        <tr><td>Jeu où on incline le téléphone pour diriger</td><td><code>Accelerometer</code>, <code>Gyroscope</code></td></tr>
+        <tr><td>Boussole dans le navigateur</td><td><code>Magnetometer</code></td></tr>
+        <tr><td>Réalité augmentée (AR) sur le web</td><td><code>AbsoluteOrientationSensor</code></td></tr>
+        <tr><td>Niveau à bulle pour mesurer une pente</td><td><code>GravitySensor</code></td></tr>
+        <tr><td>Mode sombre automatique selon la lumière</td><td><code>AmbientLightSensor</code></td></tr>
+        <tr><td>Compteur de pas</td><td><code>LinearAccelerationSensor</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Les capteurs disponibles</h2>
+    <div class="cols">
+      <div>
+        <p><span class="tag tag-audio">Mouvement</span></p>
+        <ul>
+          <li><code>Accelerometer</code>détecte les secousses et mouvements</li>
+          <li><code>LinearAccelerationSensor</code>idem, sans l'effet de la gravité</li>
+          <li><code>GravitySensor</code>mesure uniquement la gravité</li>
+          <li><code>Gyroscope</code>détecte les rotations</li>
+        </ul>
+      </div>
+      <div>
+        <p><span class="tag tag-camera">Orientation</span></p>
+        <ul>
+          <li><code>AbsoluteOrientationSensor</code>angle par rapport à la Terre</li>
+          <li><code>RelativeOrientationSensor</code>angle depuis le lancement</li>
+        </ul>
+        <br>
+        <p><span class="tag tag-network">Environnement</span></p>
+        <ul>
+          <li><code>Magnetometer</code>champ magnétique (boussole)</li>
+          <li><code>AmbientLightSensor</code>luminosité ambiante</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Sécurité &amp; permissions</h2>
+    <p>L'API protège l'utilisateur :</p>
+    <ul>
+      <li>Site en <strong>HTTPS</strong> obligatoire (ou localhost pour tester)</li>
+      <li>Le navigateur <strong>demande la permission</strong> avant d'activer un capteur</li>
+      <li>Les iframes doivent être autorisées explicitement par le serveur</li>
+    </ul>
+    <pre><code class="language-js">// Vérifier si l'utilisateur a donné la permission
+const result = await navigator.permissions.query({ name: 'accelerometer' });
+// result.state → 'granted' | 'denied' | 'prompt'</code></pre>
+  </section>
+
+  <section>
+    <h2>Cycle de vie d'un capteur</h2>
+    <pre><code class="language-js">const sensor = new Gyroscope({ frequency: 60 });
+
+sensor.addEventListener('activate', () =&gt; console.log('prêt'));
+sensor.addEventListener('error', (e) =&gt; console.error(e.error));
+sensor.addEventListener('reading', () =&gt; {
+  console.log(sensor.x, sensor.y, sensor.z);
+});
+
+sensor.start(); // démarre le capteur
+sensor.stop();  // arrête et libère la batterie</code></pre>
+    <blockquote>
+      ⚠ Un capteur actif <strong>consomme de la batterie</strong>. Toujours appeler <code>.stop()</code> quand on n'en a plus besoin.
+    </blockquote>
+  </section>
+
+  <section>
+    <h2>Limites connues</h2>
+    <table>
+      <thead><tr><th>Limite</th><th>Explication</th></tr></thead>
+      <tbody>
+        <tr><td><strong>PC</strong></td><td>Les ordis n'ont généralement pas d'accéléromètre ou gyroscope</td></tr>
+        <tr><td><strong>Firefox / Safari</strong></td><td>Ces navigateurs n'ont pas implémenté l'API</td></tr>
+        <tr><td><strong>Vie privée</strong></td><td>Les données sont volontairement imprécises pour éviter le pistage</td></tr>
+        <tr><td><strong>Batterie</strong></td><td>Plus on lit souvent, plus ça consomme</td></tr>
+        <tr><td><strong>Arrière-plan</strong></td><td>Les capteurs se mettent en pause si l'onglet n'est pas visible</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Ce projet</h2>
+    <p>Pour la démo, j'utilise des capteurs <strong>qui marchent sur PC</strong> :</p>
+    <table>
+      <thead><tr><th>API</th><th>Capteur</th><th>Ce qu'on mesure</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>getUserMedia</code></td>
+          <td>Microphone</td>
+          <td><span class="tag tag-audio">Volume sonore (dB)</span></td>
+        </tr>
+        <tr>
+          <td><code>getUserMedia</code></td>
+          <td>Caméra</td>
+          <td><span class="tag tag-camera">Luminosité de l'image (%)</span></td>
+        </tr>
+        <tr>
+          <td><code>Network Information</code></td>
+          <td>Carte réseau</td>
+          <td><span class="tag tag-network">Débit et latence</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <blockquote>
+      Même principe que la Sensor API : <strong>lire des données du monde réel</strong> depuis une page web.
+    </blockquote>
+  </section>
+
+  <section>
+    <h2>Ressources</h2>
+    <ul>
+      <li><strong>W3C</strong>w3.org/TR/generic-sensor</li>
+      <li><strong>MDN</strong>developer.mozilla.org/docs/Web/API/Sensor_APIs</li>
+      <li><strong>Chrome Dev</strong>developer.chrome.com/docs/capabilities/web-apis/generic-sensor</li>
+    </ul>
+    <br>
+    <h1 style="font-size: 1.5em; margin-top: 0.4em;">Merci !</h1>
+  </section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script> <%# herb:disable html-require-script-nonce %>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script> <%# herb:disable html-require-script-nonce %>
+<script>Reveal.initialize({hash: true, transition: 'fade', transitionSpeed: 'fast', controls: true, progress: true, width: 1200, height: 700, margin: 0.06, plugins: [RevealHighlight]});</script><%# herb:disable html-require-script-nonce %>
+</body>
+</html>
