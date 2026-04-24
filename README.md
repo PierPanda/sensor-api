@@ -42,7 +42,7 @@ src/
   style.css
 components/
   vumetre.ts      # Animated VU meter bar component
-src/rendu/
+src/reveal/
   SENSOR_API.md  # Background doc on the Generic Sensor API
 ```
 
